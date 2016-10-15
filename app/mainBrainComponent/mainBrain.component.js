@@ -11,5 +11,9 @@
 	function controller(){
 		var $ctrl = this;
 		$ctrl.text = "Hello World";
+
+		$ctrl.$onInit = function(){
+			console.log("Walrus!");
+		}
 	}
 })();

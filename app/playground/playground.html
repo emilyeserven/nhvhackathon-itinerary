@@ -1,0 +1,11 @@
+<div>
+	<h1>The name I see: {{$ctrl.coolName}}</h1>
+	<input ng-model="$ctrl.coolName">
+	<ol>
+		<li ng-repeat="thing in $ctrl.testArray">{{thing}}</li>
+	</ol>
+	<button ng-click="$ctrl.addNameToArray()">Add the "{{$ctrl.coolName}}" to the list</button>
+	<code>
+		<pre>{{$ctrl | json}}</pre>
+	</code>
+</div>
