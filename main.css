@@ -1,0 +1,90 @@
+body {
+    font-size:12px;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.header {
+    background-color: #0A84C6;
+    padding: 8px 25px;
+    margin-bottom: 5px;
+}
+h1 {
+    font-family: "Arial Black";
+    font-weight: 400;
+    color: #fff;
+    font-size: 3.5em;
+    padding: 0;
+    margin:0;
+}
+h1 strong {
+    font-weight: 900;
+}
+.contents {
+    padding: 0 25px;
+}
+.contents p {
+    font-family: "Arial";
+    font-size:2em;
+    margin: 0;
+}
+.contents span {
+    line-height: 1.5em;
+    display: inline-block;
+    margin-top: 10px;
+}
+input[type="date"] {
+    width: calc(100% - 20px);
+    font-family: arial;
+    font-size: 1.25em;
+    padding: 5px 10px;
+   box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+   border-style:none;
+}
+input[type="submit"] {
+    -webkit-appearance: none;
+    border: #136FA1 2px solid;
+    background-color: #136FA1;
+    color: #fff;
+    padding: 8px 10px;
+    width: 100%;
+    font-size: 1.75em;
+    margin: 1em auto 0;
+    font-family: "Arial";
+    float: none;
+}
+input[type="time"] {
+    width: calc(100% - 20px);
+    font-size: 1em;
+    padding: 5px 10px;
+   box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+   border:0;
+   font-family: "Arial";
+}
+.submit-holder {
+    width: 100%;
+    margin: 0 auto;
+}
+#mainselection select {
+   border: 0;
+   color: #000;
+   background: transparent;
+   font-size: 1em;
+   font-weight: bold;
+   padding: 6px 10px;
+   width: 100%;
+   *width: 100%;
+   *background: #58B14C;
+   -webkit-appearance: none;
+}
+
+#mainselection {
+   overflow:hidden;
+   width:100%;
+   -moz-border-radius: 0;
+   -webkit-border-radius: 0;
+   border-radius: 0;
+   box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+   background: #fff url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll right center;
+}
