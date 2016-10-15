@@ -12,8 +12,10 @@
 
 		<script src="./app/playground/playground.component.js"></script>
 	<body ng-app="app">
+		<a ui-sref="home">home</a>
+		<a ui-sref="playground">playground<a>
+		<a ui-sref="fromToAt({fromString:'where i am', destString:'somewhere else', dateTimeString:'when ever I can.'})">From To At<a>
 		<h1 ng-if="false">Angular Broke!</h1>
-		<!--<main-brain></main-brain>-->
 		<ui-view></ui-view>
 	</body>
 </html>
