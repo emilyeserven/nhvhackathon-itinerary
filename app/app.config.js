@@ -1,11 +1,15 @@
+
 (function() {
 	'use strict';
 
 	angular.module('app').config(configuration);
 
-	configuration.$inject = ['$stateProvider', '$urlRouterProvider'];
+	configuration.$inject = ['$stateProvider', '$urlRouterProvider', '$httpProvider'];
 
-	function configuration($stateProvider, $urlRouterProvider){
+	function configuration($stateProvider, $urlRouterProvider, $httpProvider){
+
+		// $httpProvider.defaults.useXDomain = true;
+        // delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
 		$urlRouterProvider.otherwise('/');
 
