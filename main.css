@@ -1,5 +1,27 @@
+/* TABLE OF CONTENTS
+
+1.00 - GLOBAL STYLES
+1.01 -- Structure
+1.02 -- Typography
+2.00 - ORGANIZER SCREEN
+2.01 -- Typography
+3.00 - PARTICIPANT SCREEN
+3.01 -- Main Structure
+3.02 -- Single Element Holding Structures
+3.03 -- Copy Styling
+4.00 - TRAIN LISTINGS
+4.01 -- Stricture
+4.02 -- Typography
+5.00 - FORM STYLING
+5.01 -- Organizer Fields
+5.02 -- Participant Fields
+*/
+
+/* 1.00 - GLOBAL */
+/* 1.01 -- Structure */
 body {
     font-size:12px;
+    font-family: "Arial";
 }
 .container {
     max-width: 800px;
@@ -10,22 +32,38 @@ body {
     padding: 8px 25px;
     margin-bottom: 5px;
 }
-h1 {
+.subheader {
+   background-color:#0A97E3;
+   padding: 3px 25px;
+   margin-bottom: 5px;
+   margin-top: 15px;
+}
+
+/* 1.02 -- Typography */
+
+h2, h1 {
     font-family: "Arial Black";
     font-weight: 400;
     color: #fff;
-    font-size: 3.5em;
     padding: 0;
     margin:0;
+}
+h1 {
+    font-size: 3.5em;
 }
 h1 strong {
     font-weight: 900;
 }
+h2 {
+   font-size: 2.25em;
+}
+
+/* 2.00 - ORGANIZER SCREEN */
+/* 2.01 -- Copy */
 .contents {
     padding: 0 25px;
 }
 .contents p {
-    font-family: "Arial";
     font-size:2em;
     margin: 0;
 }
@@ -34,6 +72,84 @@ h1 strong {
     display: inline-block;
     margin-top: 10px;
 }
+
+/* 3.00 - PARTICIPANT SCREEN */
+
+/* 3.01 -- Main Structure */
+.participant-holder {
+   margin-top: 2em;
+}
+.location-finder {
+    padding: 10px 25px;
+}
+.location-holder {
+   background-color:#C1D5E0;
+   /*border: 2px solid #012030; */
+}
+.location-holder {
+   margin: 2em;
+}
+
+/* 3.02 -- Single Element Holding Structures */
+.search-holder {
+    display: inline-block;
+    width: 65%;
+    margin-right: 4%;
+}
+.copy-holder {
+   display:inline-block;
+   width: 10%;
+   float:none;
+   margin: 0 auto;
+   text-align:center;
+}
+.detect-holder {
+    width: 15%;
+    display: inline-block;
+}
+
+/* 3.03 -- Copy Styling */
+.organizer-info p {
+   font-size: 2.5em;
+   font-weight: 400;
+}
+.organizer-info p span {
+   font-weight: 900;
+}
+.copy-holder p {
+   font-size: 1.5em;
+}
+.location-found p {
+    padding: 5px 25px;
+    font-size: 1.35em;
+}
+.location-found p span{
+    font-weight:900;
+}
+
+/* 4.00 - TRAIN LISTINGS */
+/* 4.01 -- Structure */
+.train-time, .train-name {
+    display: inline-block;
+    width: 50%;
+}
+.train-time {
+    float: right;
+}
+.train-name {
+    float: left;
+}
+
+/* 4.02 -- Typography */
+.train-name p, .train-time p {
+    font-size: 1.5em;
+}
+.train-name p {
+   font-weight: 700;
+}
+
+/* 5.00 - FORM STYLING */
+/* 5.01 -- Organizer Fields */
 input[type="date"] {
     width: calc(100% - 20px);
     font-family: arial;
@@ -51,7 +167,6 @@ input[type="submit"] {
     width: 100%;
     font-size: 1.75em;
     margin: 1em auto 0;
-    font-family: "Arial";
     float: none;
 }
 input[type="time"] {
@@ -60,17 +175,18 @@ input[type="time"] {
     padding: 5px 10px;
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    border:0;
-   font-family: "Arial";
 }
 .submit-holder {
     width: 100%;
     margin: 0 auto;
 }
+
+/* 'Select' field styling found at: https://codepen.io/ericrasch/pen/zjDBx */
 #mainselection select {
    border: 0;
    color: #000;
    background: transparent;
-   font-size: 1em;
+   font-size: 2em;
    font-weight: bold;
    padding: 6px 10px;
    width: 100%;
@@ -88,3 +204,31 @@ input[type="time"] {
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    background: #fff url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll right center;
 }
+
+/* 5.02 -- Participant Fields */
+
+.partici-search {
+   width: 100%;
+    font-size: 2em;
+    padding: 3px 10px;
+    border: 2px #fff solid;
+    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+}
+input.partici-detect {
+    width: 100%;
+    font-size: 2em;
+    border: #fff 2px solid;
+    background-color: #fff;
+    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+}
+/* RESPONSIVE */
+
+/*
+.train-row:nth-of-type(odd) {
+    margin-right: 5%;
+}
+.train-row {
+    width: 45%;
+    display: inline-block;
+}
+*/
