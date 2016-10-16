@@ -54,8 +54,8 @@
 		</div>
 		<div class="location-finder">
 			<div class="search-holder">
-				<form >
-					<input class="partici-search" value="Search" ng-model="$ctrl.originSearchString"/>
+				<form ng-submit="$ctrl.locateViaString()">
+					<input class="partici-search" value="Search" ng-model="$ctrl.originSearchString" $ng-disabled="$ctrl.isLoading"/>
 				</form>
 			</div>
 			<div class="copy-holder">
@@ -68,54 +68,57 @@
 				<input class="partici-detect" type="button" value="..." ng-show="$ctrl.isLoading" ng-disabled="true"/>
 			</div>
 		</div>
+	</div>
+	<div class="train-holder" ng-if="$ctrl.formattedResponse">
 		<div class="subheader" style="margin-top:0;" ng-if="$ctrl.formattedResponse">
 			<h2>We found your train!</h2>
 		</div>
-		<div class="location-found" ng-if="$ctrl.formattedResponse">
-			<p>From <span>[Input Location]</span>, you can take the <span>[time]</span> train departing from the <span>[station]</span> Station.</p>
+		<div class="location-found" ng-hide="$ctrl.formattedResponse === undefined">
+			<p>From <span>{{$ctrl.rawData.data.response.result.routes[0].legs[0].start_address}}</span>, you can take the <span>{{$ctrl.rawData.data.response.result.routes[0].legs[0].departure_time.text}}</span> train departing from the <span>{{$ctrl.formattedResponse[0].steps[0].departure_stop.name}}</span> Station.</p>
 		</div>
-	</div>
-	<div class="train-holder" ng-if="$ctrl.formattedResponse">
 		<div class="subheader">
 			<h2>Full Train List</h2>
 		</div>
+		<!--<route-group ng-model="$ctrl.formattedResponse"></route-group>-->
 		<div class="listings-holder">
-			<div class="train-row">
-				<div class="train-name">
-					<p>
-						Green's Farm
-					</p>
-				</div>
-				<div class="train-time">
-					<p>
-						1:23 PM
-					</p>
-				</div>
+			<div class="train-row clearfix" ng-repeat="thing in $ctrl.formattedResponse">
+				<!--<pre>{{thing | json}}</pre>-->
+				<p>
+					<span class="train-name">{{thing.steps[0].line.name}}</span>
+					<span class="train-time">
+						<span class="train-deparr">{{thing.steps[0].departure_time.text}} - {{thing.steps[0].arival_time.text}}</span>
+						<span class="train-dur">({{thing.routeDuration}})</span>
+					</span>
+				</p>
 			</div>
-			<div class="train-row">
-				<div class="train-name">
-					<p>
-						Green's Farm
-					</p>
-				</div>
-				<div class="train-time">
-					<p>
-						1:23 PM
-					</p>
-				</div>
+			<!--<div class="train-row clearfix">
+				<p>
+					<span class="train-name">Green's Farm</span>
+					<span class="train-time">
+						<span class="train-deparr">1:45pm - 2:00pm</span>
+						<span class="train-dur">(15 Minutes)</span>
+					</span>
+				</p>
 			</div>
-			<div class="train-row">
-				<div class="train-name">
-					<p>
-						Green's Farm
-					</p>
-				</div>
-				<div class="train-time">
-					<p>
-						1:23 PM
-					</p>
-				</div>
+			<div class="train-row clearfix">
+				<p>
+					<span class="train-name">Green's Farm</span>
+					<span class="train-time">
+						<span class="train-deparr">[Depart] - [Arrive]</span>
+						<span class="train-dur">([Dur] Minutes)</span>
+					</span>
+				</p>
 			</div>
+			<div class="train-row clearfix">
+				<p>
+					<span class="train-name">Green's Farm</span>
+					<span class="train-time">
+						<span class="train-deparr">[Depart] - [Arrive]</span>
+						<span class="train-dur">([Dur] Minutes)</span>
+					</span>
+				</p>
+			</div>-->
 		</div>
+	</div>
 	</div>
 </div>

@@ -50,7 +50,14 @@
 					arrival_time:arrival_time,
 				}
 
-				resolve($http.get("https://api.scriptrapps.io/hack/getDirections", {params:params}));
+				$http.get("https://api.scriptrapps.io/hack/getDirections", {params:params}).then(function(response){
+					if (response.data.response.result.status === "ZERO_RESULTS"){
+						reject("ZERO_RESULTS")
+					}else{
+						resolve(response);
+					}
+				}).catch(reject)
+
 			});
 		}// end get all data.
 
@@ -68,7 +75,13 @@
 						origin: lat + "," + lng,
 					}
 
-					resolve($http.get("https://api.scriptrapps.io/hack/getDirections", {params:params}));
+					$http.get("https://api.scriptrapps.io/hack/getDirections", {params:params}).then(function(response){
+						if (response.data.response.result.status === "ZERO_RESULTS"){
+							reject("ZERO_RESULTS");
+						}else{
+							resolve(response)
+						}
+					}).catch(reject);
 
 					//console.log("Location Found:", locationResponse);
 				}).catch(reject)

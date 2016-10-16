@@ -154,7 +154,21 @@
 		}
 
 		function locateViaString(){
-
+			$ctrl.noData = false;
+			$ctrl.isLoading = true;
+			$ctrl.hasSuccess = false;
+			$ctrl.hasError = false;
+			$ctrl.noData = false;
+			getData($ctrl.originSearchString,$ctrl.to,formatTimestamp($ctrl.at)).then(function(response){
+				$ctrl.hasSuccess = true;
+				console.log("Success!", response);
+				$ctrl.rawData = response;
+				parseResponse(response);
+			}).catch(function(error){
+				$ctrl.hasError = true;
+			}).finally(function(){
+				$ctrl.isLoading = false;
+			});
 		}
 
 		function getGpsData(){
@@ -172,6 +186,8 @@
 			googleApi.getDataWithGPS($ctrl.to, formatTimestamp($ctrl.at)).then(function(response){
 				console.log("Success!", response);
 				$ctrl.rawData = response;
+				if (response.data.response.result.status === "ZERO_RESULTS"){
+				}
 				parseResponse(response);
 				$ctrl.hasSuccess = true;
 				$ctrl.hasError = false;
