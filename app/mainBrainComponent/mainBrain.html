@@ -6,10 +6,10 @@
 	<div class="contents">
 		<div class="organizer-form">
 			<p><span>The group will leave on the day of</span><br />
-			<input type="date" ng-model="$ctrl.to"><br />
+			<!--<input type="date" ng-model="$ctrl.at"><br />-->
 			<span>to meet at the train station in</span></p>
 			<div id="mainselection">
-				<select name="stations" ng-model="$ctrl.at" class="chosen-select">
+				<select name="stations" ng-model="$ctrl.to" class="chosen-select">
 					<optgroup>
 						  <option value="New Canaan">New Canaan</option>
 						  <option value="Stamford">Stamford</option>
@@ -20,11 +20,11 @@
 			</div>
 			<p>
 			<span>with the last person to arrive before</span><br />
-			<input type="time" ng-model="$ctrl.time" /><br />
+			<!--<input type="time" ng-model="$ctrl.time" /><br />-->
 			</p>
 		</div>
 		<div class="output">
-			http://localhost:8888/nhnhack/#/from/{{$ctrl.from}}/to/{{$ctrl.to}}/at/{{$ctrl.at}}<br />
+			http://localhost:8888/nhnhack/#/from/{{$ctrl.from}}/to/{{$ctrl.to}}/at/{{$ctrl.at | amDateFormat:"MMM-DD-YYYY-hmmA"}}<br />
 			You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!
 		</div>
 	</div>

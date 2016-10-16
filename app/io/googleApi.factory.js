@@ -40,48 +40,56 @@
 	// 		);
 	// }
 
-	googleApi.$inject = ['$http', '$q'];
-	function googleApi($http, $q) {
+	googleApi.$inject = ['$http', '$q', 'geolocation'];
+	function googleApi($http, $q, geolocation) {
+
+		var scriptrToken = "TTU1N0M5MEM5ODpzY3JpcHRyOjAwRUU4MEE3QzNENzI5ODAxQ0ZBOUIzNDEyQzZCMzQ1";
 
 		var service = {
-			getData:getData
+			getAllData:getAllData,
+			getDataWithGPS:getDataWithGPS,
 		};
 
 		return service;
 
 		////////////////
 
-		function connectGapi(){
-			gapi.client.helloWorld.greetings.listGreeting().execute(
-				function(resp) {
-					if (!resp.code) {
-						console.debug(resp);
-						$scope.greetings = resp.items;
-						// Because it's a callback,
-						// we need to notify angular of the data refresh...
-						$scope.$digest();
-					}
-			});
-		}
-
-		function getData(from, to, at) { 
+		function getAllData(origin, destination, arrival_time) { 
 
 			//https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood4&key=AIzaSyDt7SOSEpRMaN1E9JIGphHsPp20HvrVKV4&transit_mode=rail&mode=transit
 
 			return $q(function(resolve, reject){
 
 				var params = {
-					auth_token: "TTU1N0M5MEM5ODpzY3JpcHRyOjAwRUU4MEE3QzNENzI5ODAxQ0ZBOUIzNDEyQzZCMzQ1",
-					from:from,
-					to:to,
-					at:at,
+					auth_token: scriptrToken,
+					origin:origin,
+					destination:destination,
+					arrival_time:arrival_time,
 				}
 
-				var options = {
-					params: params,
-				}
-				resolve($http.get("https://api.scriptrapps.io/hack/getDirections", options));
+				resolve($http.get("https://api.scriptrapps.io/hack/getDirections", {params:params}));
 			});
+		}// end get all data.
+
+		function getDataWithGPS(destination, arrival_time){
+			return $q(function(resolve,reject){
+				geolocation.getLocation().then(function(locationResponse){
+
+					var lat = locationResponse.coords.latitude;
+					var lng = locationResponse.coords.longitude;
+
+					var params = {
+						auth_token: scriptrToken,
+						destination:destination,
+						arrival_time:arrival_time,
+						origin: lat + "," + lng,
+					}
+
+					resolve($http.get("https://api.scriptrapps.io/hack/getDirections", {params:params}));
+
+					//console.log("Location Found:", locationResponse);
+				}).catch(reject)
+			})
 		}
 	}
 })();
