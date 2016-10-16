@@ -151,17 +151,19 @@ h2 {
 .listings-holder {
    padding: 0;
    font-size:1.5em;
+    margin-top: -2px;
 }
 .train-row {
    display: inline-block;
    width: 100%;
+    margin: -3px 0;
 }
 
 .train-row:nth-of-type(odd) {
-    background-color: #C1D5E0;
+    background-color: #C3EAFF;
 }
 .train-row:nth-of-type(even) {
-    background-color: #DBE7ED;
+    background-color: #F5F5F5;
 }
 
 /*
@@ -199,6 +201,11 @@ input[type="date"] {
     padding: 5px 10px;
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    border-style:none;
+   background-image: url(img/calendar.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center right;
+   text-align: left;
 }
 input[type="submit"] {
     -webkit-appearance: none;
@@ -215,8 +222,14 @@ input[type="time"] {
     width: calc(100% - 20px);
     font-size: 1em;
     padding: 5px 10px;
+     font-family: "Arial";
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    border:0;
+   background-image: url(img/clock.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center right;
+   text-align: left;
 }
 
 /* 'Select' field styling found at: https://codepen.io/ericrasch/pen/zjDBx */
@@ -251,6 +264,11 @@ input[type="time"] {
     padding: 3px 10px;
     border: 2px #fff solid;
     box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+    background-image: url(img/mag.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center right;
+    text-align: left;
 }
 input.partici-detect {
     width: 100%;
@@ -258,6 +276,11 @@ input.partici-detect {
     border: #fff 2px solid;
     background-color: #fff;
     box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+    background-image: url(img/gps.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center right;
+    text-align: left;
 }
 /* RESPONSIVE */
 /*
