@@ -38,11 +38,25 @@ body {
    margin-bottom: 5px;
    margin-top: 15px;
 }
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
 
 .submit-holder {
     width: 90%;
     margin: 0 auto;
 }
+
 /* 1.02 -- Typography */
 
 h2, h1 {
@@ -135,17 +149,32 @@ h2 {
 /* 4.00 - TRAIN LISTINGS */
 /* 4.01 -- Structure */
 .listings-holder {
-   padding: 0 50px;
+   padding: 0;
+   font-size:1.5em;
 }
+.train-row {
+   display: inline-block;
+   width: 100%;
+}
+
+.train-row:nth-of-type(odd) {
+    background-color: #C1D5E0;
+}
+.train-row:nth-of-type(even) {
+    background-color: #DBE7ED;
+}
+
+/*
 .train-time, .train-name {
     display: inline-block;
     width: 50%;
-}
+} */
 .train-time {
     float: right;
 }
 .train-name {
     float: left;
+    font-weight:900;
 }
 
 /* 4.02 -- Typography */
@@ -156,6 +185,11 @@ h2 {
    font-weight: 700;
 }
 
+
+.train-row p {
+    line-height: 1em;
+    padding: .15em 1.25em 1em;
+}
 /* 5.00 - FORM STYLING */
 /* 5.01 -- Organizer Fields */
 input[type="date"] {
@@ -226,16 +260,18 @@ input.partici-detect {
     box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
 }
 /* RESPONSIVE */
-
+/*
 @media screen and (min-width: 800px) {
    .train-row:nth-of-type(odd) {
        margin-right: 5%;
+       #C1D5E0
    }
    .train-row {
        width: 45%;
        display: inline-block;
    }
 }
+*/
 @media screen and (max-width: 800px) {
    .search-holder, .copy-holder, .detect-holder {
       display:block;
@@ -243,6 +279,7 @@ input.partici-detect {
       margin-right:0;
    }
 }
+/*
 @media screen and (max-width: 760px) {
    .train-name {
       width: 75%;
@@ -270,3 +307,4 @@ input.partici-detect {
       padding: 0 25px;
    }
 }
+*/
