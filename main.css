@@ -24,21 +24,25 @@ body {
     font-family: "Arial";
 }
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 .header {
     background-color: #0A84C6;
-    padding: 8px 25px;
+    padding: 8px 50px;
     margin-bottom: 5px;
 }
 .subheader {
    background-color:#0A97E3;
-   padding: 3px 25px;
+   padding: 3px 50px;
    margin-bottom: 5px;
    margin-top: 15px;
 }
 
+.submit-holder {
+    width: 90%;
+    margin: 0 auto;
+}
 /* 1.02 -- Typography */
 
 h2, h1 {
@@ -61,7 +65,7 @@ h2 {
 /* 2.00 - ORGANIZER SCREEN */
 /* 2.01 -- Copy */
 .contents {
-    padding: 0 25px;
+    padding: 0 50px;
 }
 .contents p {
     font-size:2em;
@@ -78,9 +82,10 @@ h2 {
 /* 3.01 -- Main Structure */
 .participant-holder {
    margin-top: 2em;
+   padding: 0 50px;
 }
 .location-finder {
-    padding: 10px 25px;
+    padding: 10px 50px;
 }
 .location-holder {
    background-color:#C1D5E0;
@@ -129,6 +134,9 @@ h2 {
 
 /* 4.00 - TRAIN LISTINGS */
 /* 4.01 -- Structure */
+.listings-holder {
+   padding: 0 50px;
+}
 .train-time, .train-name {
     display: inline-block;
     width: 50%;
@@ -176,10 +184,6 @@ input[type="time"] {
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    border:0;
 }
-.submit-holder {
-    width: 100%;
-    margin: 0 auto;
-}
 
 /* 'Select' field styling found at: https://codepen.io/ericrasch/pen/zjDBx */
 #mainselection select {
@@ -208,7 +212,7 @@ input[type="time"] {
 /* 5.02 -- Participant Fields */
 
 .partici-search {
-   width: 100%;
+   width: calc(100% - 24px);
     font-size: 2em;
     padding: 3px 10px;
     border: 2px #fff solid;
@@ -223,12 +227,46 @@ input.partici-detect {
 }
 /* RESPONSIVE */
 
-/*
-.train-row:nth-of-type(odd) {
-    margin-right: 5%;
+@media screen and (min-width: 800px) {
+   .train-row:nth-of-type(odd) {
+       margin-right: 5%;
+   }
+   .train-row {
+       width: 45%;
+       display: inline-block;
+   }
 }
-.train-row {
-    width: 45%;
-    display: inline-block;
+@media screen and (max-width: 800px) {
+   .search-holder, .copy-holder, .detect-holder {
+      display:block;
+      width: 100%;
+      margin-right:0;
+   }
 }
-*/
+@media screen and (max-width: 760px) {
+   .train-name {
+      width: 75%;
+   }
+   .train-time {
+      width: 25%;
+   }
+}
+@media screen and (max-width: 530px) {
+   .train-name {
+      width: 70%;
+   }
+   .train-time {
+      width: 30%;
+   }
+}
+@media screen and (max-width: 700px) {
+   .train-name p, .train-time p {
+      font-size: 2em;
+   }
+   .participant-holder {
+      padding: 0;
+   }
+   .organizer-info {
+      padding: 0 25px;
+   }
+}
