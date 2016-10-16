@@ -1,0 +1,22 @@
+.routeGroup{
+	border: 1px solid black;
+	display:flex;
+	flex-direction: row;
+	margin: 8px 0px;
+}
+.trainRoute, .routeStep{
+	display: flex;
+	flex-direction: row;
+}
+
+.trainRoute .routeStep .timeContainer{
+	display: flex;
+	flex-direction: column;
+}
+.trainRoute .routeStep .lineName, .trainRoute .routeDuration{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0px 16px;
+}

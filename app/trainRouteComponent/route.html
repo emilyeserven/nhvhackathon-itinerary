@@ -1,1 +1,11 @@
-<div ng-style="$ctrl.lineStyle">{{$ctrl.lineName}}</div>
+<div class="trainRoute" >
+	<div class="routeDuration">{{$ctrl.routeDuration}}</div>
+	<div class="routeStep" ng-repeat="step in $ctrl.niceSteps">
+		<!--<img ng-src="{{step.icon}}">-->
+		<div class="lineName" ng-style="step.lineStyle" ng-href="{{step.lineUrl}}" >{{step.lineName}}</div>
+		<div class="timeContainer">
+			<div>Depart <i><b>{{step.departureStopName}}</b></i> at {{step.departureTime}}</div>
+			<div>Arrive <i><b>{{step.arrivalStopName}}</b></i> at {{step.arrivalTime}}</div>
+		</div>
+	</div>
+</div>

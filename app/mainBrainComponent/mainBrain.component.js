@@ -58,16 +58,20 @@
 			$ctrl.eventIsOver;
 
 			if((angular.isDefined($ctrl.at) && $ctrl.at.toLowerCase() === "now") || $stateParams.time == ""){
+				console.log("Version 1");
 				$ctrl.at = moment().toDate();
 				$ctrl.eventIsOver = false;
 			}else if (angular.isDefined($ctrl.at)){
+				console.log("Version 2");
 				$ctrl.at = formatDateString($ctrl.at);
 				if ($ctrl.at.getTime() < Math.floor(new Date().getTime() / 1000)){
 					$ctrl.eventIsOver = true;
 				}
 			}else{
-				$ctrl.at = moment().toDate();
-				$ctrl.eventIsOver = false;
+				console.log("Version 3")
+				// $ctrl.at = new Date(new moment());
+				// $ctrl.eventIsOver = false;
+				//$ctrl.at = new Date();
 			}
 
 			if (angular.isDefined($stateParams.destination) && $stateParams.destination !== ""){
@@ -117,12 +121,22 @@
 				});
 			}else if ($ctrl.isOriginLookupMode){
 				console.log("(GPS) Origin Lookup Mode Detected.");
+				if (angular.isUndefined($stateParams.destination) || $stateParams.destination === ""){
+					$state.go("organizerMode");
+					console.log("Leaving limbo.");
+				}
 			}else if ($ctrl.isOrganizerMode){
 				console.log("Operator Mode Detected.");
-
 			}else{
 				$ctrl.isUnknownMode = true;
 				console.log("Unknown Mode Detected.", $stateParams);
+			}
+		}// end oninit
+
+		function compileEveryStation(){
+			var stationList = trainStationData.getStations();
+			for(var i = 0; i < stationList.length; i++){
+				var station = stationList[i];
 			}
 		}
 
@@ -212,11 +226,15 @@
 							var step = leg.steps[k];
 							console.log("STEP", step);
 							if (step.travel_mode === "TRANSIT"){
-								goodSteps.push(step);
+								goodSteps.push(step.transit_details);
 							}
 						}
 						if (goodSteps.length > 0){
-							railSteps.push(goodSteps);
+							var usefulData = {
+								routeDuration: leg.duration.text,
+								steps:goodSteps
+							}
+							railSteps.push(usefulData);
 						}
 					}
 				}

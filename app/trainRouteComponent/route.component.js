@@ -14,28 +14,46 @@
 	function controller(){
 		var $ctrl = this;
 
-		$ctrl.totalStops = $ctrl.ngModel.num_stops;
+		$ctrl.$onInit = function(){
 
-		$ctrl.lineName = $ctrl.ngModel.line.name;
-		$ctrl.lineUrl = $ctrl.ngModel.line.url;
+			console.log("ngModelForRoute:", $ctrl.ngModel)
 
-		$ctrl.lineStyle = {
-				"color":$ctrl.ngModel.line.text_color,
-				"background-color":$ctrl.ngModel.line.color,
-			};
-		
-		$ctrl.arrivalTime = $ctrl.arrival_time.text;
-		$ctrl.departureTime = $ctrl.departure_time.text;
+			var arrayOfSteps = $ctrl.ngModel.steps;
+			$ctrl.routeDuration = $ctrl.ngModel.routeDuration;
+			var niceSteps = [];
 
-		$ctrl.arrivalStopName = $ctrl.arrival_stop.name;
-		$ctrl.departureStopName = $ctrl.departure_Stop.name;
+			for(var i = 0; i < arrayOfSteps.length; i++){
+				var niceStep = {};
+				var step = arrayOfSteps[i];
+			
+				niceStep.totalStops = step.num_stops;
 
-		$ctrl.headsign = $ctrl.headsign;
+				niceStep.lineName = step.line.name;
+				niceStep.lineUrl = step.line.url;
 
-		$ctrl.agencies = $ctrl.line.agencies;
+				niceStep.lineStyle = {
+						"color":step.line.text_color,
+						"background-color":step.line.color,
+					};
+				
+				niceStep.arrivalTime = step.arrival_time.text;
+				niceStep.departureTime = step.departure_time.text;
 
-		$ctrl.icon = $ctrl.line.vehicle.icon;
-		$ctrl.iconAltText = $ctrl.line.vehicle.name;
-		$ctrl.vehicle_type = $ctrl.line.vehicle.type;
+				niceStep.arrivalStopName = step.arrival_stop.name;
+				niceStep.departureStopName = step.departure_stop.name;
+
+				niceStep.headsign = step.headsign;
+
+				niceStep.agencies = step.line.agencies;
+
+				niceStep.icon = step.line.vehicle.icon;
+				niceStep.iconAltText = step.line.vehicle.name;
+				niceStep.vehicle_type = step.line.vehicle.type;	
+
+				niceSteps.push(niceStep);
+			}
+
+			$ctrl.niceSteps = niceSteps;
+		}
 	}
 })();

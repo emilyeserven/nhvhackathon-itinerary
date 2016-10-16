@@ -13,7 +13,7 @@
 			</div>
 			<p>
 			<span>with the last person to arrive before</span><br />
-			<input type="time" ng-model="$ctrl.at" /><br />
+			<input type="time" ng-model="$ctrl.at" step="15" /><br />
 			</p>
 		</div>
 		<div class="output" ng-show="$ctrl.isOrganizerMode">
@@ -75,6 +75,10 @@
 
 		<route-group ng-model="$ctrl.formattedResponse"></route-group>
 
+		<!--<div ng-repat="station in $ctrl.stationMasterQuery">
+			<h3>{{station.name}}</h3>
+			<route-group ng-model="$ctrl.formattedResponse"></route-group>
+		</div>-->
 		<!--<div class="listings-holder">
 			<div class="train-row">
 				<div class="train-name">
