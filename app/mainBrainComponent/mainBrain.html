@@ -1,28 +1,53 @@
 <div class="header">
-	<h1>{{$ctrl.text}}</h1>
+	<h1>From Here to There</h1>
+	<h2>Something a trip with friends.</h2>
 </div>
-<div class="organizer-holder" ng-if="$ctrl.isOrganizerMode">
+<div class="organizer-holder" ng-show="$ctrl.isOrganizerMode">
 	<div class="contents">
-		<div class="organizer-form" ng-show="$ctrl.isOrganizerMode">
-			<p><span>The group will leave on the day of</span><br />
+		<div class="organizer-copy">
+			<ol>
+				<li>
+					Fill in your trip info and get a sharable link.
+				</li>
+				<li>
+					Friends fill in their location.
+				</li>
+				<li>
+					Get everyone there at the same time.
+				</li>
+			</ol>
+		</div>
+		<div class="organizer-form">
+			<p><span>What day is your event?</span><br />
 			<input type="date" ng-model="$ctrl.at"><br />
-			<span>to meet at the train station in</span></p>
+			<span>Where are you headed?</span></p>
 			<div id="mainselection">
-				<select ng-options="item as item.station for item in $ctrl.listOfStations track by item.address" ng-model="$ctrl.chosenStation">
+				<select ng-options="item as item.station for item in $ctrl.getListOfStations()" placeholder="select a station" ng-model="$ctrl.chosenStation">
 				</select>
+				<!--<select name="stations" ng-model="$ctrl.at" class="chosen-select">
+					<optgroup>
+						  <option value="New Canaan">New Canaan</option>
+						  <option value="Stamford">Stamford</option>
+						  <option value="New Haven">New Haven</option>
+						  <option value="Grand Central">Grand Central</option>
+					</optgroup>
+				</select><br />-->
 			</div>
 			<p>
-			<span>with the last person to arrive before</span><br />
+			<span>What time do you want everyone to arrive by?</span><br />
 			<input type="time" ng-model="$ctrl.at" step="15" /><br />
 			</p>
 		</div>
 		<div class="output" ng-show="$ctrl.isOrganizerMode">
-			<a ng-href="{{$ctrl.newUrl}}" target="_blank">{{$ctrl.newUrl}}</a>
+			<!--http://localhost:8888/nhnhack/#/from/{{$ctrl.from}}/to/{{$ctrl.to}}/at/{{$ctrl.at}}<br />
+			You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!-->
+			<p>{{$ctrl.newUrl}}</p><br />
+			You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!
 		</div>
 	</div>
 
 	<div class="submit-holder">
-		<input type="submit" value="Get Us There" ui-sref="lookupMode({destination:$ctrl.to, time:$ctrl.at})" ng-show="$ctrl.isOrganizerMode"/>
+		<a ng-href="{{$ctrl.newUrl}}" target="_blank"><input type="submit" value="Get Us There" /></a>
 	</div>
 </div>
 <div class="participant-holder">
@@ -43,8 +68,8 @@
 		</div>
 		<div class="location-finder">
 			<div class="search-holder">
-				<form ng-submit="$ctrl.originTextSearch()">
-					<input class="partici-search" value="Search" ng-model="$ctrl.originSearchString"/>
+				<form ng-submit="$ctrl.locateViaString()">
+					<input class="partici-search" value="Search" ng-model="$ctrl.originSearchString" $ng-disabled="$ctrl.isLoading"/>
 				</form>
 			</div>
 			<div class="copy-holder">
@@ -53,69 +78,61 @@
 				</p>
 			</div>
 			<div class="detect-holder">
-				<input class="partici-detect" type="button" value="Detect" ng-click="$ctrl.getGpsData()"/>
+				<input class="partici-detect" type="button" value="Detect" ng-hide="$ctrl.isLoading" ng-click="$ctrl.getGpsData()" />
+				<input class="partici-detect" type="button" value="..." ng-show="$ctrl.isLoading" ng-disabled="true"/>
 			</div>
 		</div>
+	</div>
+	<div class="train-holder" ng-if="$ctrl.formattedResponse">
 		<div class="subheader" style="margin-top:0;" ng-if="$ctrl.formattedResponse">
 			<h2>We found your train!</h2>
 		</div>
-		<div class="location-found" ng-if="$ctrl.formattedResponse">
-			<p>From <span>[input location]</span>, you can take the <span>[time]</span> train departing from the <span>[station]</span> Station.</p>
+		<div class="location-found" ng-hide="$ctrl.formattedResponse === undefined">
+			<p>From <span>{{$ctrl.rawData.data.response.result.routes[0].legs[0].start_address}}</span>, you can take the <span>{{$ctrl.rawData.data.response.result.routes[0].legs[0].departure_time.text}}</span> train departing from the <span>{{$ctrl.formattedResponse[0].steps[0].departure_stop.name}}</span> Station.</p>
 		</div>
-	</div>
-	<div ng-show="$ctrl.noData == true">
-		<h3 ng-show="$ctrl.chosenStation === undefined">I could not find any trains that go from {{$ctrl.from}} to {{$ctrl.to}} at {{$ctrl.at | date : 'shortTime'}} on {{$ctrl.at | date}}.</h3>
-		<h3 ng-show="$ctrl.chosenStation !== undefined">I could not find any trains that go from {{$ctrl.from}} to {{$ctrl.chosenStation.station}} at {{$ctrl.at | date : 'shortTime'}} on {{$ctrl.at | date}}.</h3>
-	</div>
-	<!--<div><pre>{{$ctrl.formattedResponse|json}}</pre></div>-->
-	<div class="train-holder" ng-if="$ctrl.formattedResponse">
 		<div class="subheader">
 			<h2>Full Train List</h2>
 		</div>
-
-		<route-group ng-model="$ctrl.formattedResponse"></route-group>
-
-		<!--<div ng-repat="station in $ctrl.stationMasterQuery">
-			<h3>{{station.name}}</h3>
-			<route-group ng-model="$ctrl.formattedResponse"></route-group>
-		</div>-->
-		<!--<div class="listings-holder">
-			<div class="train-row">
-				<div class="train-name">
-					<p>
-						Green's Farm
-					</p>
-				</div>
-				<div class="train-time">
-					<p>
-						1:23 PM
-					</p>
-				</div>
+		<!--<route-group ng-model="$ctrl.formattedResponse"></route-group>-->
+		<div class="listings-holder">
+			<div class="train-row clearfix" ng-repeat="thing in $ctrl.formattedResponse">
+				<!--<pre>{{thing | json}}</pre>-->
+				<p>
+					<span class="train-name">{{thing.steps[0].line.name}}</span>
+					<span class="train-time">
+						<span class="train-deparr">{{thing.steps[0].departure_time.text}} - {{thing.steps[0].arival_time.text}}</span>
+						<span class="train-dur">({{thing.routeDuration}})</span>
+					</span>
+				</p>
 			</div>
-			<div class="train-row">
-				<div class="train-name">
-					<p>
-						Green's Farm
-					</p>
-				</div>
-				<div class="train-time">
-					<p>
-						1:23 PM
-					</p>
-				</div>
+			<!--<div class="train-row clearfix">
+				<p>
+					<span class="train-name">Green's Farm</span>
+					<span class="train-time">
+						<span class="train-deparr">1:45pm - 2:00pm</span>
+						<span class="train-dur">(15 Minutes)</span>
+					</span>
+				</p>
 			</div>
-			<div class="train-row">
-				<div class="train-name">
-					<p>
-						Green's Farm
-					</p>
-				</div>
-				<div class="train-time">
-					<p>
-						1:23 PM
-					</p>
-				</div>
+			<div class="train-row clearfix">
+				<p>
+					<span class="train-name">Green's Farm</span>
+					<span class="train-time">
+						<span class="train-deparr">[Depart] - [Arrive]</span>
+						<span class="train-dur">([Dur] Minutes)</span>
+					</span>
+				</p>
 			</div>
-		</div>-->
+			<div class="train-row clearfix">
+				<p>
+					<span class="train-name">Green's Farm</span>
+					<span class="train-time">
+						<span class="train-deparr">[Depart] - [Arrive]</span>
+						<span class="train-dur">([Dur] Minutes)</span>
+					</span>
+				</p>
+			</div>-->
+		</div>
+	</div>
 	</div>
 </div>
