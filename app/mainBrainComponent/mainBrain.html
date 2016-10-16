@@ -1,38 +1,117 @@
-
 <div class="header">
 	<h1>{{$ctrl.text}}</h1>
 </div>
 <div class="organizer-holder">
 	<div class="contents">
-		<div class="organizer-form">
+		<div class="organizer-form" ng-show="$ctrl.isOrganizerMode">
 			<p><span>The group will leave on the day of</span><br />
-			<!--<input type="date" ng-model="$ctrl.at"><br />-->
+			<input type="date" ng-model="$ctrl.at"><br />
 			<span>to meet at the train station in</span></p>
 			<div id="mainselection">
-				<select name="stations" ng-model="$ctrl.to" class="chosen-select">
-					<optgroup>
-						  <option value="New Canaan">New Canaan</option>
-						  <option value="Stamford">Stamford</option>
-						  <option value="New Haven">New Haven</option>
-						  <option value="Grand Central">Grand Central</option>
-					</optgroup>
-				</select><br />
+				<select ng-options="item as item.station for item in $ctrl.listOfStations track by item.address" ng-model="$ctrl.chosenStation">
+				</select>
 			</div>
 			<p>
 			<span>with the last person to arrive before</span><br />
-			<!--<input type="time" ng-model="$ctrl.time" /><br />-->
+			<input type="time" ng-model="$ctrl.at" /><br />
 			</p>
 		</div>
-		<div class="output">
-			http://localhost:8888/nhnhack/#/from/{{$ctrl.from}}/to/{{$ctrl.to}}/at/{{$ctrl.at | amDateFormat:"MMM-DD-YYYY-hmmA"}}<br />
-			You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!
+		<div class="output" ng-show="$ctrl.isOrganizerMode">
+			<a ng-href="{{$ctrl.newUrl}}" target="_blank">{{$ctrl.newUrl}}</a>
 		</div>
 	</div>
 
 	<div class="submit-holder">
-		<input type="submit" value="Get Us There"/>
+		<input type="submit" value="Get Us There" ng-show="$ctrl.isOrganizerMode"/>
 	</div>
 </div>
 <div class="participant-holder">
-	You're going to
+	<div class="organizer-info" ng-hide="$ctrl.isOrganizerMode">
+		<p ng-if="$ctrl.chosenStation === undefined">
+			You've been invited to <span>{{$ctrl.to}}</span> at <span>{{$ctrl.at | date : 'shortTime'}}</span> on <span>{{$ctrl.at | date}}</span>!
+		</p>
+		<p ng-if="$ctrl.chosenStation !== undefined">
+			You've been invited to <span>{{$ctrl.chosenStation.station}}</span> at <span>{{$ctrl.at | date : 'shortTime'}}</span> on <span>{{$ctrl.at | date}}</span>!
+		</p>
+		<b ng-show="$ctrl.eventIsOver">
+			NOTE: The event that this link was created for has already happened!
+		</b>
+	</div>
+	<div class="location-holder" ng-show="$ctrl.isOriginLookupMode">
+		<div class="subheader" style="margin-top:0;">
+			<h2>Where Are You Coming From?</h2>
+		</div>
+		<div class="location-finder">
+			<div class="search-holder">
+				<form ng-submit="$ctrl.originTextSearch()">
+					<input class="partici-search" value="Search" ng-model="$ctrl.originSearchString"/>
+				</form>
+			</div>
+			<div class="copy-holder">
+				<p>
+					- or -
+				</p>
+			</div>
+			<div class="detect-holder">
+				<input class="partici-detect" type="button" value="Detect" ng-click="$ctrl.getGpsData()"/>
+			</div>
+		</div>
+		<div class="subheader" style="margin-top:0;" ng-if="$ctrl.formattedResponse">
+			<h2>We found your train!</h2>
+		</div>
+		<div class="location-found" ng-if="$ctrl.formattedResponse">
+			<p>From <span>[input location]</span>, you can take the <span>[time]</span> train departing from the <span>[station]</span> Station.</p>
+		</div>
+	</div>
+	<div ng-show="$ctrl.noData == true">
+		<h3 ng-show="$ctrl.chosenStation === undefined">I could not find any trains that go from {{$ctrl.from}} to {{$ctrl.to}} at {{$ctrl.at | date : 'shortTime'}} on {{$ctrl.at | date}}.</h3>
+		<h3 ng-show="$ctrl.chosenStation !== undefined">I could not find any trains that go from {{$ctrl.from}} to {{$ctrl.chosenStation.station}} at {{$ctrl.at | date : 'shortTime'}} on {{$ctrl.at | date}}.</h3>
+	</div>
+	<!--<div><pre>{{$ctrl.formattedResponse|json}}</pre></div>-->
+	<div class="train-holder" ng-if="$ctrl.formattedResponse">
+		<div class="subheader">
+			<h2>Full Train List</h2>
+		</div>
+
+		<route-group ng-model="$ctrl.formattedResponse"></route-group>
+
+		<!--<div class="listings-holder">
+			<div class="train-row">
+				<div class="train-name">
+					<p>
+						Green's Farm
+					</p>
+				</div>
+				<div class="train-time">
+					<p>
+						1:23 PM
+					</p>
+				</div>
+			</div>
+			<div class="train-row">
+				<div class="train-name">
+					<p>
+						Green's Farm
+					</p>
+				</div>
+				<div class="train-time">
+					<p>
+						1:23 PM
+					</p>
+				</div>
+			</div>
+			<div class="train-row">
+				<div class="train-name">
+					<p>
+						Green's Farm
+					</p>
+				</div>
+				<div class="train-time">
+					<p>
+						1:23 PM
+					</p>
+				</div>
+			</div>
+		</div>-->
+	</div>
 </div>

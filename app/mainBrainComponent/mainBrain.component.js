@@ -6,12 +6,42 @@
 		templateUrl:"./app/mainBrainComponent/mainBrain.html",
 	});
 
-	controller.$inject = ['$state', '$stateParams', 'googleApi', 'moment'];
+	controller.$inject = ['$scope','$location','$state', '$stateParams', 'googleApi', 'moment', 'trainStationData'];
 
-	function controller($state, $stateParams, googleApi, moment){
+	function controller($scope, $location, $state, $stateParams, googleApi, moment, trainStationData){
 		var $ctrl = this;
 
-		// $ctrl.text = "Beautiful Present, Hello!"
+		$ctrl.text = "Hello!"
+
+		var count = 0;
+
+		$scope.$watch(function(){
+
+				if (angular.isDefined($ctrl.chosenStation)){
+					return $ctrl.chosenStation.station;
+				}else{
+					return $ctrl.chosenStation;
+				}
+			}, function(){
+				// if (count > 2){
+				// 	formatNewUrl();
+				// }else{
+				// 	count ++;
+				// }
+				formatNewUrl();
+			}, true)
+
+			$scope.$watch(function(){
+				return $ctrl.at;
+			}, function(){
+				// if (count > 2){
+				// 	formatNewUrl();
+				// }else{
+				// 	count ++;
+				// }
+				formatNewUrl();
+			}, true)
+
 
 		$ctrl.$onInit = function(){
 			console.log($stateParams);
@@ -19,19 +49,50 @@
 			$ctrl.to = $stateParams.destination;
 			$ctrl.at = $stateParams.time;
 
+			$ctrl.listOfStations = trainStationData.getStations();
+
+			$ctrl.chosenStation;
+
 			$ctrl.timeStamp;
 
+			$ctrl.eventIsOver;
+
 			if((angular.isDefined($ctrl.at) && $ctrl.at.toLowerCase() === "now") || $stateParams.time == ""){
-				$ctrl.at = new Date();
+				$ctrl.at = moment().toDate();
+				$ctrl.eventIsOver = false;
 			}else if (angular.isDefined($ctrl.at)){
 				$ctrl.at = formatDateString($ctrl.at);
+				if ($ctrl.at.getTime() < Math.floor(new Date().getTime() / 1000)){
+					$ctrl.eventIsOver = true;
+				}
 			}else{
-				$ctrl.at = new Date();
+				$ctrl.at = moment().toDate();
+				$ctrl.eventIsOver = false;
+			}
+
+			if (angular.isDefined($stateParams.destination) && $stateParams.destination !== ""){
+				var station = trainStationData.getStation($stateParams.destination);
+				if (station !== null){
+					$ctrl.chosenStation = station;
+					$ctrl.to = station.address;
+				}
+			}
+
+			if (angular.isDefined($stateParams.origin) && $stateParams.origin !== ""){
+				var station = trainStationData.getStation($stateParams.origin);
+				if (station !== null){
+					$ctrl.chosenStation = station;
+					$ctrl.from = station.address;
+				}
 			}
 
 			$ctrl.isParticipantMode = isFullParticipantMode();
 			$ctrl.isOriginLookupMode = isOriginLookupMode();
 			$ctrl.isOrganizerMode = isOrganizerMode();
+
+			$ctrl.originTextSearch = originTextSearch;
+			$ctrl.getGpsData = getGpsData;
+			$ctrl.formatNewUrl = formatNewUrl;
 
 			$ctrl.isUnknownMode = false;
 
@@ -47,6 +108,7 @@
 					$ctrl.hasSuccess = true;
 					console.log("Success!", response);
 					$ctrl.rawData = response;
+					parseResponse(response);
 				}).catch(function(error){
 					$ctrl.hasError = true;
 					console.error("error", error);
@@ -54,13 +116,7 @@
 					isLoading = false;
 				});
 			}else if ($ctrl.isOriginLookupMode){
-				console.log("(GPS) Origin Lookup Mode Detected. Polling Google for data.");
-				googleApi.getDataWithGPS($ctrl.to, formatTimestamp($ctrl.at)).then(function(response){
-					console.log("Success!", response);
-					$ctrl.rawData = response;
-				}).catch(function(error){
-					console.error("error", error);
-				})
+				console.log("(GPS) Origin Lookup Mode Detected.");
 			}else if ($ctrl.isOrganizerMode){
 				console.log("Operator Mode Detected.");
 
@@ -71,7 +127,29 @@
 		}
 
 		function getData(from, to, at){
+			$ctrl.noData = false;
 			return googleApi.getAllData(from, to, at);
+		}
+
+		function getGpsData(){
+			$ctrl.noData = false;
+			console.log("Started GPS Lookup.");
+			googleApi.reverseGeocode().then(function(response){
+				console.log("ReverseGeococe", response);
+			}).catch(function(err){
+				console.error("err", err);
+			});
+			googleApi.getDataWithGPS($ctrl.to, formatTimestamp($ctrl.at)).then(function(response){
+				console.log("Success!", response);
+				$ctrl.rawData = response;
+				parseResponse(response);
+			}).catch(function(error){
+				console.error("error", error);
+			})
+		}
+
+		function originTextSearch(){
+			console.log("TODO: find a location based on:", $ctrl.originSearchString);
 		}
 
 		function _hasAllThree(){
@@ -82,8 +160,16 @@
 			}
 		}
 
+		function hasNone(){
+			if ((angular.isUndefined($stateParams.origin) || ($stateParams.origin === "")) && (angular.isUndefined($stateParams.destination) || ($stateParams.destination === "")) && (angular.isUndefined($stateParams.time) || ($stateParams.time === ""))){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
 		function isOrganizerMode(){
-			return _hasAllThree() === false;
+			return hasNone() === true;
 		}
 
 		function isFullParticipantMode(){
@@ -104,6 +190,69 @@
 			}else{
 				console.error("dateObject not a date object.", dateObj)
 				return null;
+			}
+		}
+
+		function parseResponse(responseObj){
+			var possibleRoutes = responseObj.data.response.result.routes || [];
+			var routeLegs = [];
+			var railSteps = [];
+			for(var i = 0; i < possibleRoutes.length; i++){
+				var route = possibleRoutes[i];
+				routeLegs.push(route.legs);
+			}
+			if (routeLegs.length > 0){
+				// $ctrl.formattedResponse = routeLegs;
+				for(var i = 0; i < routeLegs.length; i++){
+					var legs = routeLegs[i];
+					for(var j = 0; j < legs.length; j++){
+						var leg = legs[j];
+						var goodSteps = [];
+						for(var k = 0; k < leg.steps.length; k++){
+							var step = leg.steps[k];
+							console.log("STEP", step);
+							if (step.travel_mode === "TRANSIT"){
+								goodSteps.push(step);
+							}
+						}
+						if (goodSteps.length > 0){
+							railSteps.push(goodSteps);
+						}
+					}
+				}
+				if(railSteps.length > 0){
+					$ctrl.formattedResponse = railSteps;
+					console.log("Formatted Response:", $ctrl.formattedResponse);
+				}else{
+					$ctrl.noData = true;
+				}
+			}else{
+				$ctrl.noData = true;
+			}
+		}
+
+		function formatNewUrl(){
+			if($ctrl.chosenStation !== undefined){
+				var host = $location.host();
+				var protocol = $location.protocol();
+				var port = $location.port();
+
+				var time = moment($ctrl.at).format("MMM-DD-YYYY-h:mma");
+
+				//console.log("Chosen Station:", $ctrl.chosenStation.station);
+
+				var destination = trainStationData.getUrlSafeName($ctrl.chosenStation.station);
+
+				if (port === 80){
+					port = "";
+				}else{
+					port = ":" + port;
+				}
+
+				var output = protocol + "://" + host + port + "/#/link/" + time + "/" + destination;
+
+				$ctrl.newUrl = output;
+				//console.log("new Url Out:", output);
 			}
 		}
 

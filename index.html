@@ -13,10 +13,14 @@
 
 		<script src="./app/mainBrainComponent/mainBrain.component.js"></script>
 		<script src="./app/beautifulPresent/beautifulPresent.component.js"></script>
+		<script src="./app/trainRouteComponent/route.component.js"></script>
+		<script src="./app/trainRouteComponent/routeGroup.component.js"></script>
+		<link rel="stylesheet" type="text/css", href="./app/trainRouteComponent/route.css">
 
 		<script src="./app/playground/playground.component.js"></script>
 
 		<script src="./app/io/googleApi.factory.js"></script>
+		<script src="./app/io/trainStationData.factory.js"></script>
 
 		<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&callback=initMap"></script>-->
 
@@ -24,10 +28,7 @@
 		<link rel="stylesheet" type="text/css" href="main.css">
 	<body>
 		<div class="container">
-			<a ui-sref="home">home</a>
-			<a ui-sref="playground">playground<a>
-			<a ui-sref="fromToAt({origin:'where i am', destination:'somewhere else', time:'when ever I can.'})">From To At<a>
-			<h1 ng-if="false">Angular Broke!</h1>
+			<a ui-sref="organizer">organize an event</a>
 			<ui-view></ui-view>
 		</div>
 	</body>
