@@ -1,13 +1,27 @@
 
 <div class="header">
-	<h1>{{$ctrl.text}}</h1>
+	<h1>From Here to There</h1>
+	<h2>Simple and sharable trip planning with friends</h2>
 </div>
 <div class="organizer-holder" ng-show="$ctrl.isOrganizerMode">
 	<div class="contents">
+		<div class="organizer-copy">
+			<ol>
+				<li>
+					Fill in your trip info and get a sharable link.
+				</li>
+				<li>
+					Friends fill in their location.
+				</li>
+				<li>
+					Get everyone there at the same time.
+				</li>
+			</ol>
+		</div>
 		<div class="organizer-form">
-			<p><span>The group will leave on the day of</span><br />
+			<p><span>What day is your event?</span><br />
 			<input type="date" ng-model="$ctrl.at"><br />
-			<span>to meet at the train station in</span></p>
+			<span>Where are you headed?</span></p>
 			<div id="mainselection">
 				<select ng-options="item as item.station for item in $ctrl.getListOfStations()" placeholder="select a station" ng-model="$ctrl.chosenStation">
 				</select>
@@ -21,14 +35,15 @@
 				</select><br />-->
 			</div>
 			<p>
-			<span>with the last person to arrive before</span><br />
+			<span>What time do you want everyone to arrive by?</span><br />
 			<input type="time" ng-model="$ctrl.at" step="15" /><br />
 			</p>
 		</div>
 		<div class="output" ng-show="$ctrl.isOrganizerMode">
 			<!--http://localhost:8888/nhnhack/#/from/{{$ctrl.from}}/to/{{$ctrl.to}}/at/{{$ctrl.at}}<br />
 			You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!-->
-			<p>{{$ctrl.newUrl}}</p>
+			<p>{{$ctrl.newUrl}}</p><br />
+			<!--You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!-->
 		</div>
 	</div>
 

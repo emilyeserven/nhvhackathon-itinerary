@@ -29,7 +29,7 @@ body {
 }
 .header {
     background-color: #0A84C6;
-    padding: 8px 50px;
+    padding: 8px 50px 18px;
     margin-bottom: 5px;
 }
 .subheader {
@@ -38,11 +38,25 @@ body {
    margin-bottom: 5px;
    margin-top: 15px;
 }
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
 
 .submit-holder {
     width: 90%;
     margin: 0 auto;
 }
+
 /* 1.02 -- Typography */
 
 h2, h1 {
@@ -61,9 +75,20 @@ h1 strong {
 h2 {
    font-size: 2.25em;
 }
+.header h2 {
+   font-size: 2em;
+   font-family:"Arial";
+}
 
 /* 2.00 - ORGANIZER SCREEN */
 /* 2.01 -- Copy */
+.organizer-copy {
+   font-size:1.5em;
+   line-height:1.5em;
+}
+.organizer-copy ol {
+   margin-bottom:.25em;
+}
 .contents {
     padding: 0 50px;
 }
@@ -135,17 +160,34 @@ h2 {
 /* 4.00 - TRAIN LISTINGS */
 /* 4.01 -- Structure */
 .listings-holder {
-   padding: 0 50px;
+   padding: 0;
+   font-size:1.5em;
+    margin-top: -2px;
 }
+.train-row {
+   display: inline-block;
+   width: 100%;
+    margin: -3px 0;
+}
+
+.train-row:nth-of-type(odd) {
+    background-color: #C3EAFF;
+}
+.train-row:nth-of-type(even) {
+    background-color: #F5F5F5;
+}
+
+/*
 .train-time, .train-name {
     display: inline-block;
     width: 50%;
-}
+} */
 .train-time {
     float: right;
 }
 .train-name {
     float: left;
+    font-weight:900;
 }
 
 /* 4.02 -- Typography */
@@ -156,6 +198,11 @@ h2 {
    font-weight: 700;
 }
 
+
+.train-row p {
+    line-height: 1em;
+    padding: .15em 1.25em 1em;
+}
 /* 5.00 - FORM STYLING */
 /* 5.01 -- Organizer Fields */
 input[type="date"] {
@@ -165,6 +212,11 @@ input[type="date"] {
     padding: 5px 10px;
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    border-style:none;
+   background-image: url(img/calendar.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center right;
+   text-align: left;
 }
 input[type="submit"] {
     -webkit-appearance: none;
@@ -181,8 +233,14 @@ input[type="time"] {
     width: calc(100% - 20px);
     font-size: 1em;
     padding: 5px 10px;
+     font-family: "Arial";
    box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
    border:0;
+   background-image: url(img/clock.png);
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-position: center right;
+   text-align: left;
 }
 
 /* 'Select' field styling found at: https://codepen.io/ericrasch/pen/zjDBx */
@@ -217,6 +275,11 @@ input[type="time"] {
     padding: 3px 10px;
     border: 2px #fff solid;
     box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+    background-image: url(img/mag.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center right;
+    text-align: left;
 }
 input.partici-detect {
     width: 100%;
@@ -224,18 +287,25 @@ input.partici-detect {
     border: #fff 2px solid;
     background-color: #fff;
     box-shadow: 0px 0px 1px #136FA1, 0px 0px 1px #136FA1;
+    background-image: url(img/gps.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center right;
+    text-align: left;
 }
 /* RESPONSIVE */
-
+/*
 @media screen and (min-width: 800px) {
    .train-row:nth-of-type(odd) {
        margin-right: 5%;
+       #C1D5E0
    }
    .train-row {
        width: 45%;
        display: inline-block;
    }
 }
+*/
 @media screen and (max-width: 800px) {
    .search-holder, .copy-holder, .detect-holder {
       display:block;
@@ -243,6 +313,7 @@ input.partici-detect {
       margin-right:0;
    }
 }
+/*
 @media screen and (max-width: 760px) {
    .train-name {
       width: 75%;
@@ -270,3 +341,4 @@ input.partici-detect {
       padding: 0 25px;
    }
 }
+*/
