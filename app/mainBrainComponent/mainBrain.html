@@ -1,13 +1,27 @@
 
 <div class="header">
-	<h1>{{$ctrl.text}}</h1>
+	<h1>From Here to There</h1>
+	<h2>Something a trip with friends.</h2>
 </div>
 <div class="organizer-holder">
 	<div class="contents">
+		<div class="organizer-copy">
+			<ol>
+				<li>
+					Fill in your trip info and get a sharable link.
+				</li>
+				<li>
+					Friends fill in their location.
+				</li>
+				<li>
+					Get everyone there at the same time.
+				</li>
+			</ol>
+		</div>
 		<div class="organizer-form">
-			<p><span>The group will leave on the day of</span><br />
+			<p><span>What day is your event?</span><br />
 			<input type="date" ng-model="$ctrl.to"><br />
-			<span>to meet at the train station in</span></p>
+			<span>Where are you headed?</span></p>
 			<div id="mainselection">
 				<select name="stations" ng-model="$ctrl.at" class="chosen-select">
 					<optgroup>
@@ -19,7 +33,7 @@
 				</select><br />
 			</div>
 			<p>
-			<span>with the last person to arrive before</span><br />
+			<span>What time do you want everyone to arrive by?</span><br />
 			<input type="time" ng-model="$ctrl.time" /><br />
 			</p>
 		</div>
@@ -36,12 +50,12 @@
 <div class="participant-holder">
 	<div class="organizer-info">
 		<p>
-			You've been invited to <span>[station]</span> at <span>[time]</span> on <span>[date]</span>!
+			You've been invited go to <span>[station]</span> at <span>[time]</span> on <span>[date]</span>!
 		</p>
 	</div>
 	<div class="location-holder">
 		<div class="subheader" style="margin-top:0;">
-			<h2>Where Are You Coming From?</h2>
+			<h2>Where are you coming from?</h2>
 		</div>
 		<div class="location-finder">
 			<div class="search-holder">
@@ -64,9 +78,10 @@
 			<p>
 				For your reference, the address of the station is [Address].
 			</p>
+			<!-- Hidden for now. 
 			<p class="wrong-location">
-				<a href="#">Wrong Location</a> <!-- URL minus location string -->
-			</p>
+				<a href="#">Wrong Location</a> URL minus location string
+			</p> -->
 		</div>
 	</div>
 	<div class="train-holder">

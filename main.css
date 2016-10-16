@@ -29,7 +29,7 @@ body {
 }
 .header {
     background-color: #0A84C6;
-    padding: 8px 50px;
+    padding: 8px 50px 18px;
     margin-bottom: 5px;
 }
 .subheader {
@@ -75,9 +75,20 @@ h1 strong {
 h2 {
    font-size: 2.25em;
 }
+.header h2 {
+   font-size: 2em;
+   font-family:"Arial";
+}
 
 /* 2.00 - ORGANIZER SCREEN */
 /* 2.01 -- Copy */
+.organizer-copy {
+   font-size:1.5em;
+   line-height:1.5em;
+}
+.organizer-copy ol {
+   margin-bottom:.25em;
+}
 .contents {
     padding: 0 50px;
 }
