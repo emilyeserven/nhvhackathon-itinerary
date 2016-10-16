@@ -3,7 +3,7 @@
 
 	angular.module('app').component('mainBrain', {
 		controller: controller,
-		templateUrl:"./app/mainBrainComponent/mainBrain.html",
+		templateUrl:"./app/mainBrainComponent/secondBrain.html",
 	});
 
 	controller.$inject = ['$scope','$location','$state', '$stateParams', 'googleApi', 'moment', 'trainStationData'];
@@ -94,6 +94,10 @@
 			$ctrl.isOriginLookupMode = isOriginLookupMode();
 			$ctrl.isOrganizerMode = isOrganizerMode();
 
+			$ctrl.locateViaString = locateViaString;
+
+			$ctrl.getListOfStations = getListOfStations;
+
 			$ctrl.originTextSearch = originTextSearch;
 			$ctrl.getGpsData = getGpsData;
 			$ctrl.formatNewUrl = formatNewUrl;
@@ -145,20 +149,40 @@
 			return googleApi.getAllData(from, to, at);
 		}
 
+		function triggerwait(){
+
+		}
+
+		function locateViaString(){
+
+		}
+
 		function getGpsData(){
 			$ctrl.noData = false;
+			$ctrl.isLoading = true;
+			$ctrl.hasSuccess = false;
+			$ctrl.hasError = false;
+			$ctrl.noData = false;
 			console.log("Started GPS Lookup.");
-			googleApi.reverseGeocode().then(function(response){
-				console.log("ReverseGeococe", response);
-			}).catch(function(err){
-				console.error("err", err);
-			});
+			// googleApi.reverseGeocode().then(function(response){
+			// 	console.log("ReverseGeococe", response);
+			// }).catch(function(err){
+			// 	console.error("err", err);
+			// });
 			googleApi.getDataWithGPS($ctrl.to, formatTimestamp($ctrl.at)).then(function(response){
 				console.log("Success!", response);
 				$ctrl.rawData = response;
 				parseResponse(response);
+				$ctrl.hasSuccess = true;
+				$ctrl.hasError = false;
+				$ctrl.noData = false;
 			}).catch(function(error){
 				console.error("error", error);
+				$ctrl.hasSuccess = false;
+				$ctrl.hasError = true;
+				$ctrl.noData = true;
+			}).finally(function(){
+				$ctrl.isLoading = false;
 			})
 		}
 
@@ -196,6 +220,10 @@
 			}else{
 				return false;
 			}
+		}
+
+		function getListOfStations(){
+			return trainStationData.getStations();;
 		}
 
 		function formatTimestamp(dateObj){

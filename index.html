@@ -2,11 +2,14 @@
 <html ng-app='app'>
 	<head>
 		<title></title>
+		<script src="./bower_components/jquery/dist/jquery.js"></script>
 		<script src="./bower_components/angular/angular.js"></script>
 		<script src="./bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 		<script src="./bower_components/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
 		<script src="./bower_components/moment/min/moment.min.js"></script>
 		<script src="./bower_components/angular-moment/angular-moment.min.js"></script>
+		<script src="./bower_components/chosen/chosen.jquery.js"></script>
+		<script src="./bower_components/angular-chosen-localytics/dist/angular-chosen.js"></script>
 
 		<script src="./app/app.module.js"></script>
 		<script src="./app/app.config.js"></script>
@@ -23,6 +26,7 @@
 		<script src="./app/io/trainStationData.factory.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" type="text/css" href="./bower_components/chosen/chosen.css">
 	<body>
 		<div class="container">
 			<a ui-sref="organizerMode">organize an event</a>

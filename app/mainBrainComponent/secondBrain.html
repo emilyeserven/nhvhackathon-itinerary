@@ -1,15 +1,24 @@
+
 <div class="header">
 	<h1>{{$ctrl.text}}</h1>
 </div>
-<div class="organizer-holder" ng-if="$ctrl.isOrganizerMode">
+<div class="organizer-holder" ng-show="$ctrl.isOrganizerMode">
 	<div class="contents">
-		<div class="organizer-form" ng-show="$ctrl.isOrganizerMode">
+		<div class="organizer-form">
 			<p><span>The group will leave on the day of</span><br />
 			<input type="date" ng-model="$ctrl.at"><br />
 			<span>to meet at the train station in</span></p>
 			<div id="mainselection">
-				<select ng-options="item as item.station for item in $ctrl.listOfStations track by item.address" ng-model="$ctrl.chosenStation">
+				<select ng-options="item as item.station for item in $ctrl.getListOfStations()" placeholder="select a station" ng-model="$ctrl.chosenStation">
 				</select>
+				<!--<select name="stations" ng-model="$ctrl.at" class="chosen-select">
+					<optgroup>
+						  <option value="New Canaan">New Canaan</option>
+						  <option value="Stamford">Stamford</option>
+						  <option value="New Haven">New Haven</option>
+						  <option value="Grand Central">Grand Central</option>
+					</optgroup>
+				</select><br />-->
 			</div>
 			<p>
 			<span>with the last person to arrive before</span><br />
@@ -17,12 +26,14 @@
 			</p>
 		</div>
 		<div class="output" ng-show="$ctrl.isOrganizerMode">
-			<a ng-href="{{$ctrl.newUrl}}" target="_blank">{{$ctrl.newUrl}}</a>
+			<!--http://localhost:8888/nhnhack/#/from/{{$ctrl.from}}/to/{{$ctrl.to}}/at/{{$ctrl.at}}<br />
+			You're going from <strong>{{$ctrl.from}}</strong> to <strong>{{$ctrl.to}}</strong> at <strong>{{$ctrl.at}}</strong>!-->
+			<p>{{$ctrl.newUrl}}</p>
 		</div>
 	</div>
 
 	<div class="submit-holder">
-		<input type="submit" value="Get Us There" ui-sref="lookupMode({destination:$ctrl.to, time:$ctrl.at})" ng-show="$ctrl.isOrganizerMode"/>
+		<a ng-href="{{$ctrl.newUrl}}" target="_blank"><input type="submit" value="Get Us There" /></a>
 	</div>
 </div>
 <div class="participant-holder">
@@ -43,7 +54,7 @@
 		</div>
 		<div class="location-finder">
 			<div class="search-holder">
-				<form ng-submit="$ctrl.originTextSearch()">
+				<form >
 					<input class="partici-search" value="Search" ng-model="$ctrl.originSearchString"/>
 				</form>
 			</div>
@@ -53,33 +64,22 @@
 				</p>
 			</div>
 			<div class="detect-holder">
-				<input class="partici-detect" type="button" value="Detect" ng-click="$ctrl.getGpsData()"/>
+				<input class="partici-detect" type="button" value="Detect" ng-hide="$ctrl.isLoading" ng-click="$ctrl.getGpsData()" />
+				<input class="partici-detect" type="button" value="..." ng-show="$ctrl.isLoading" ng-disabled="true"/>
 			</div>
 		</div>
 		<div class="subheader" style="margin-top:0;" ng-if="$ctrl.formattedResponse">
 			<h2>We found your train!</h2>
 		</div>
 		<div class="location-found" ng-if="$ctrl.formattedResponse">
-			<p>From <span>[input location]</span>, you can take the <span>[time]</span> train departing from the <span>[station]</span> Station.</p>
+			<p>From <span>[Input Location]</span>, you can take the <span>[time]</span> train departing from the <span>[station]</span> Station.</p>
 		</div>
 	</div>
-	<div ng-show="$ctrl.noData == true">
-		<h3 ng-show="$ctrl.chosenStation === undefined">I could not find any trains that go from {{$ctrl.from}} to {{$ctrl.to}} at {{$ctrl.at | date : 'shortTime'}} on {{$ctrl.at | date}}.</h3>
-		<h3 ng-show="$ctrl.chosenStation !== undefined">I could not find any trains that go from {{$ctrl.from}} to {{$ctrl.chosenStation.station}} at {{$ctrl.at | date : 'shortTime'}} on {{$ctrl.at | date}}.</h3>
-	</div>
-	<!--<div><pre>{{$ctrl.formattedResponse|json}}</pre></div>-->
 	<div class="train-holder" ng-if="$ctrl.formattedResponse">
 		<div class="subheader">
 			<h2>Full Train List</h2>
 		</div>
-
-		<route-group ng-model="$ctrl.formattedResponse"></route-group>
-
-		<!--<div ng-repat="station in $ctrl.stationMasterQuery">
-			<h3>{{station.name}}</h3>
-			<route-group ng-model="$ctrl.formattedResponse"></route-group>
-		</div>-->
-		<!--<div class="listings-holder">
+		<div class="listings-holder">
 			<div class="train-row">
 				<div class="train-name">
 					<p>
@@ -116,6 +116,6 @@
 					</p>
 				</div>
 			</div>
-		</div>-->
+		</div>
 	</div>
 </div>
