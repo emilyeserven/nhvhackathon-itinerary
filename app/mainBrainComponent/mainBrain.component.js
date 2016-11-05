@@ -108,7 +108,7 @@
 			$ctrl.hasError = false;
 			$ctrl.hasSuccess = false;
 			$ctrl.noData = false;
-			
+
 			if ($ctrl.isParticipantMode){
 				console.log("Full Participant Mode Detected. Polling Google for data.");
 				$ctrl.isLoading = true;
@@ -295,7 +295,7 @@
 
 		function formatNewUrl(){
 			if($ctrl.chosenStation !== undefined){
-				var host = $location.host();
+				var host = "fromheretothereapp.com" //$location.host();
 				var protocol = $location.protocol();
 				var port = $location.port();
 
@@ -312,6 +312,7 @@
 				}
 
 				var output = protocol + "://" + host + port + "/#/link/" + time + "/" + destination;
+				//var output = "/#/link/" + time + "/" + destination;
 
 				$ctrl.newUrl = output;
 				//console.log("new Url Out:", output);

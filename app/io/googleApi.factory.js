@@ -8,7 +8,7 @@
 	googleApi.$inject = ['$http', '$q', 'geolocation'];
 	function googleApi($http, $q, geolocation) {
 
-		var scriptrToken = "TTU1N0M5MEM5ODpzY3JpcHRyOjAwRUU4MEE3QzNENzI5ODAxQ0ZBOUIzNDEyQzZCMzQ1";
+		var scriptrToken = "RkZGRTVDNzU1MTpzY3JpcHRyOjM0RTI3QTY3NzZBRENGMzQxQkU0NEYxMkM0MkQyQjJC";
 
 		var service = {
 			reverseGeocode:reverseGeocode,
@@ -37,7 +37,7 @@
 			})
 		}
 
-		function getAllData(origin, destination, arrival_time) { 
+		function getAllData(origin, destination, arrival_time) {
 
 			//https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood4&key=AIzaSyDt7SOSEpRMaN1E9JIGphHsPp20HvrVKV4&transit_mode=rail&mode=transit
 
